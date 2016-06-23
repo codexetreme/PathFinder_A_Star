@@ -41,17 +41,20 @@ void world::init(char* inputFile)
 				if (ele == 's') {
 					startPoint = Point(i, j, 1);
 					startPoint.setDisplayCharacter(ele);
+					startPoint.set_positionInWorld(_world.size());
 					_world.push_back(startPoint);
 				}
 				else if (ele == 'g') {
 					goalPoint = Point(i, j, 1);
 					goalPoint.setDisplayCharacter(ele);
+					goalPoint.set_positionInWorld(_world.size());
 					_world.push_back(goalPoint);
 				}
 				else
 				{
 					Point tempPoint(i, j, terrainTypes.at(ele));
 					tempPoint.setDisplayCharacter(ele);
+					tempPoint.set_positionInWorld(_world.size());
 					_world.push_back(tempPoint);
 
 				}
@@ -64,24 +67,56 @@ void world::init(char* inputFile)
 	}
 }
 
+void world::display()
+{
+	for (int i = 0; i < rows; i++)
+	{
+		for (int j = 0; j < columns; j++)
+		{
+			Point p(i, j);
+			std::cout << getElement(p).getDisplayCharacter();
+		}
+		std::cout << "\n";
+	}
+}
+
 
 Point world::getElement(Point p)
 {
-	return _world.at(p.getX()/rows + p.getY());
+	return _world.at(p.getX()*rows + p.getY());
 }
 
 void world::putElement(Point p)
 {
 	auto iter = std::find(_world.begin(), _world.end(), p);
 	if (iter != _world.end()) {
-		
+		_world.at(p.getX()*rows + p.getY()) = p;
 	}
-
 }
+
+
 
 int world::traversalCost(Point p1, Point p2)
 {
 	return 1 * p2.get_traverse_cost();
+}
+
+std::vector<Point> world::neighbours(Point p)
+{
+	std::vector<Point> tempNeighbours;
+	if (Point(p.getX(), p.getY()-1).isInBounds(world::rows, world::columns)) {
+		tempNeighbours.push_back(getElement(Point(p.getX(), p.getY()-1)));
+	}
+	if (Point(p.getX() - 1, p.getY()).isInBounds(world::rows, world::columns)) {
+		tempNeighbours.push_back(getElement(Point(p.getX()-1,p.getY())));
+	}
+	if (Point(p.getX() + 1, p.getY()).isInBounds(world::rows, world::columns)) {
+		tempNeighbours.push_back(getElement(Point(p.getX() + 1, p.getY())));
+	}
+	if (Point(p.getX(), p.getY()+1).isInBounds(world::rows, world::columns)) {
+		tempNeighbours.push_back(getElement(Point(p.getX(), p.getY()+1)));
+	}
+	return tempNeighbours;
 }
 
 

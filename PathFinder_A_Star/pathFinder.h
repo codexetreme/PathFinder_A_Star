@@ -15,7 +15,7 @@ private:
 		closed
 	};
 	static bool findElement(Point p,list_type l_type);
-	
+	static void constructPath(Point& currentPoint);
 	// manhattan seems good for now
 public:
 	pathFinder();

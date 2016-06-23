@@ -15,11 +15,11 @@ private:
 public:
 	world();
 	static void init(char* inputFile);
+	static void display();
 	static Point getElement(Point p);
 	static int traversalCost(Point p1, Point p2);
-	// TODO: calculate traversal cost based on the traverseCost
+	static std::vector<Point> neighbours(Point p);
 	static void putElement(Point p);
-
 	static int getRows() { return rows; }
 	static int getColumns() { return columns; }
 	static Point getGoalPoint() { return goalPoint; }

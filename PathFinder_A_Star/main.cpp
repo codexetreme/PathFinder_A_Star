@@ -5,10 +5,13 @@
 int main() {
 	
 	world::init("input.txt");
-	Point p = world::getElement(Point(0, 5));
-	std::cout << "Point is " << p.getX();
-	/*pathFinder p;
-	p.solve(world::getStartPoint());*/
+	auto p = world::getElement(Point(3,4));
+	p.setDisplayCharacter('&');
+	world::putElement(p);
+	world::display();
+	pathFinder::solve(world::getStartPoint());
+	std::cout << "\n\n";
+	world::display();
 	int x;
 	std::cin >> x;
 	return 0;
